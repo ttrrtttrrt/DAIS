@@ -1,0 +1,40 @@
+Package: DAIS
+Title: Identifying Specific Area based on Density Clustering of Spatial Omics Data
+Version: 1.0.1
+Authors@R: 
+    c(person(given = "Ru",family = "Tian",role = c("aut", "cre"),email = "tianru@genomics.cn"),
+      person(given = "Qichao",family = "Yu",role = c("aut")))
+Description: Density-based Area Identification for Spatial omics which facilitates a density-based clustering method for identifying specific zones using spatial omics data. DAIS takes the spot coordinates, spot annotation or signature gene sets as input and outputs the coordinate of each spot and the contour of the identified zones for downstream quantitative analysis.
+License: MIT + file LICENSE
+Encoding: UTF-8
+Roxygen: list(markdown = TRUE)
+RoxygenNote: 7.2.3
+Imports: 
+    alphahull,
+    AUCell,
+    clusterProfiler,
+    ComplexHeatmap,
+    cowplot,
+    data.table,
+    dbscan,
+    dplyr,
+    factoextra,
+    fpc,
+    ggplot2,
+    ggsci,
+    GSEABase,
+    GSVA,
+    Matrix,
+    pagoda2,
+    patchwork,
+    pheatmap,
+    RColorBrewer,
+    rjson,
+    rsvd,
+    scMetabolism,
+    Seurat,
+    sf,
+    singscore,
+    tidyr,
+    UCell,
+    VAM
