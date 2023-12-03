@@ -10,6 +10,8 @@
 #' @export
 #'
 #' @examples
+
+
 Transform.Mtx2SeuratObj <- function (infile,bin.size=NULL,outdir,outfile,ncores = NULL) {
   if (is.null(ncores)) {
     ncores=5
@@ -17,20 +19,6 @@ Transform.Mtx2SeuratObj <- function (infile,bin.size=NULL,outdir,outfile,ncores 
   if (is.null(ncores)) {
     bin.size=50
   }
-
-  library(Seurat)
-  library(clusterProfiler)
-  library(dplyr)
-  library(data.table)
-  library(Matrix)
-  library(rjson)
-  library(ggplot2)
-  library(ggsci)
-  library(patchwork)
-  library(RColorBrewer)
-  library(pheatmap)
-  library(cowplot)
-  library(ggpubr)
 
 
   bs <- bin.size

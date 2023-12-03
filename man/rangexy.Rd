@@ -2,7 +2,7 @@
 % Please edit documentation in R/Dscan.R
 \name{rangexy}
 \alias{rangexy}
-\title{Get coordinates of spots within specific cluster}
+\title{Match coordinates of spots within specific cluster in the metafile}
 \usage{
 rangexy(frame, annofile, n, p)
 }
@@ -19,5 +19,5 @@ rangexy(frame, annofile, n, p)
 a data frame contains coordinates of spots within specific cluster
 }
 \description{
-Get coordinates of spots within specific cluster
+Match coordinates of spots within specific cluster in the metafile
 }

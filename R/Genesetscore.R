@@ -26,6 +26,7 @@ sc.Meta <- function (object,
   }
   set.seed(666)
 
+
   DefaultAssay(object) <- assays
   object <- NormalizeData(object)
   countexp <- as.data.frame(as.matrix(object[[assays]]@data),stringsAsFactors = F)

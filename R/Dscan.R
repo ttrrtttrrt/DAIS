@@ -141,7 +141,7 @@ extractCluster <- function(x, subcluster,e=NULL){
 #' @examples
 extractCluster2 <- function(x, cluster,e, alpha){
   C0 <- as.matrix(subset(x,Region==cluster)[,1:2])
-  dat.ashape <- ashape(C0, alpha= alpha)
+  dat.ashape <- alphahull::ashape(C0, alpha= alpha)
   #plot(dat.ashape)
   ###get the point order
   edges <- dat.ashape$edges
@@ -190,6 +190,32 @@ extractCluster2 <- function(x, cluster,e, alpha){
 
 #' @title Get coordinates of spots within specific cluster
 #'
+#' @param polygon polygon of cluster
+#' @param point coordinates of spots
+#'
+#' @return coordinates of spots within specific cluster
+#' @export
+#'
+#' @examples
+point_in_polygon <- function(polygon, point){
+  odd = FALSE
+  i = 0
+  j = nrow(polygon) - 1
+  while(i < nrow(polygon) - 1){
+    i = i + 1
+    if (((polygon[i,2] > point[2]) != (polygon[j,2] > point[2]))
+        && (point[1] < ((polygon[j,1] - polygon[i,1]) * (point[2] - polygon[i,2]) / (polygon[j,2] - polygon[i,2])) + polygon[i,1]))
+    {
+      odd = !odd
+    }
+    j = i
+  }
+  return (odd)
+}
+
+
+#' @title Match coordinates of spots within specific cluster in the metafile
+#'
 #' @param frame a data frame that contains the point coordinates for each cluster polygon. The row and col columns will contain the point coordinates as rows and columns, respectively, while the cluster column will indicate the cluster ID to which each point belongs
 #' @param annofile a data frame of density clustering result,contains at least 3 columns:coordinates(row,col) and cluster id(cluster)
 #' @param n specific cluster id
@@ -214,20 +240,5 @@ rangexy <- function(frame,annofile,n,p){
   colnames(annofile)[5] <- "cluster"
   annofile <- subset(annofile,cluster == n )
   return(annofile)
-}
-point_in_polygon <- function(polygon, point){
-  odd = FALSE
-  i = 0
-  j = nrow(polygon) - 1
-  while(i < nrow(polygon) - 1){
-    i = i + 1
-    if (((polygon[i,2] > point[2]) != (polygon[j,2] > point[2]))
-        && (point[1] < ((polygon[j,1] - polygon[i,1]) * (point[2] - polygon[i,2]) / (polygon[j,2] - polygon[i,2])) + polygon[i,1]))
-    {
-      odd = !odd
-    }
-    j = i
-  }
-  return (odd)
 }
 
