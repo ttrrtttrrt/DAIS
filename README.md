@@ -13,7 +13,8 @@ Several methods of calculating the gene set score within this package were devel
 
 ```R
 install.packages(c("Seurat","VAM","pagoda2"))
-BiocManager::install(c("AUCell","GSVA","singscore","UCell")) devtools::install_github("YosefLab/VISION")
+BiocManager::install(c("AUCell","GSVA","singscore","UCell"))
+devtools::install_github("YosefLab/VISION")
 devtools::install_github("wu-yc/scMetabolism")
 ```
 
