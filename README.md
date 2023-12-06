@@ -23,11 +23,9 @@ devtools::install_github('ttrrtttrrt/DAIS')
 ```
 
 ## Tutorials
-- Identify stromal and tumor areas using the results of cell annotation :()
-- Identify TLS regions using the results of enrichment scores for specific gene sets:()
+- Identify stromal and tumor areas using the results of cell annotation :(https://github.com/ttrrtttrrt/DAIS/blob/main/Tutorials/Fig1BC.anno.R)
+- Identify TLS regions using the results of enrichment scores for specific gene sets:(https://github.com/ttrrtttrrt/DAIS/blob/main/Tutorials/Fig.1F.enrich.R)
 
-- [Installation](#installation)
-- [Tutorials](#tutorials)
 
 
 
