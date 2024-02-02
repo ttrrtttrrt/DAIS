@@ -34,18 +34,18 @@ countexp.Seurat[['image']] <- img
 signaturesFile <- as.character(paste0(indir,"//TLS.signature.v2.gmt"))
 method <- "AUCell"
 signature_exp <- sc.Meta(object = countexp.Seurat,assays = "Spatial",
-                         signaturesFile = genesetfile,method = method)
+                         signaturesFile = signaturesFile,method = method)
 write.table(signature_exp, file=paste(method,'score.tsv',sep="."),quote=F,sep="\t")
 
 
-# part2 plot  real TLS
+# --------------part2 plot  real TLS in  the original article-----------
 cells <- colnames(countexp.Seurat)
 mat1 <- matrix(ncol=2,nrow=length(cells))
 mat1[,1] <- cells
 mat1[,2] <- 1
 colnames(mat1) <- c("Barcode","score")
 
-annofile <- paste0(indir,"//TLS_annotation.mod.csv")
+annofile <- paste0(indir,"//TLS_annotation.mod.csv") #position of real TLS in the original article
 anno <- read.csv(annofile,header=T)
 mg1 <- merge(mat1,anno,by="Barcode",all=T)
 all(mg1$Barcode == colnames(countexp.Seurat))
@@ -53,8 +53,11 @@ mg1[is.na(mg1)] <- "NO"
 mg1$score <- ifelse(mg1$TLS_2_cat =="NO", 0, ifelse(mg1$TLS_2_cat=="NO_TLS",1,2))  # 0 = not annotated, 1= not TLS, 2=TLS
 countexp.Seurat@meta.data$TLS <- mg1$score
 
-p1 <- SpatialFeaturePlot(countexp.Seurat,feature="TLS",stroke = NA, alpha = 0.8, pt.size.factor = 0.8)
+#position of real TLS in the original article
+realTLS <- subset(countexp.Seurat@meta.data,TLS==2)
+p1 <- SpatialPlot(countexp.Seurat,stroke = NA, alpha = 0.8, pt.size.factor = 0.8,  cells.highlight = as.vector(rownames(realTLS)), cols.highlight = c("gold","darkblue"))   
 print(p1)
+
 
 
 ############################## 02.cell select ##############################
@@ -85,21 +88,12 @@ type.pos <- f1[,c(2,3)] #spots used to cluster
 k1 <- 4
 dbscan::kNNdistplot(type.pos, k =  k1)
 eps1 <- 6
-db1 <- fpc::dbscan(type.pos, eps = eps1, MinPts = k1)
-db1
-Mer <- cbind(type.pos,db1$cluster)
-rownames(Mer) <- c()
-colnames(Mer) <- c("x","y","Region")
-table(Mer$Region)
-
-fx <- deletelines(Mer,5,"Region")
-#remove cluster0
-fx <- subset(fx, Region != 0)
-table(fx$Region)
+fx <- Dbscan.cluster(type.pos,eps = eps1,MinPts = k1)
+table(fx$cluster)
 
 ###Clustering result graph after filter
-p4 <- ggplot(fx,aes(x=x,y=y)) +
-  geom_point(aes(fill = as.factor(Region)), shape=23,stroke=NA,alpha = 1,size=3)+
+p4 <- ggplot(fx,aes(x=row,y=col)) +
+  geom_point(aes(fill = as.factor(cluster)), shape=23,stroke=NA,alpha = 1,size=3)+
   scale_fill_manual(values =  c("#f8766d")) +
   coord_fixed(ratio = 1) +
   guides(fill=guide_legend(title="Cluster")) +
@@ -112,7 +106,6 @@ stat1 <- as.data.frame(table(fx$Region))
 
 ############################## 04.Contour recognition ##############################
 fy <- fx
-colnames(fy) <- c("row","col","cluster") ##necessary
 p <- 1
 mer1 <- list()
 mer2 <- list()
@@ -144,6 +137,7 @@ print(p5)
 
 #mat2 <- merg
 
+###outline of TLS region in all cell map 
 p6 <- ggplot(merg,aes(x=row,y=col)) +
   geom_point(aes(fill = Score), shape=23,alpha = 1, size=2,stroke=NA)+
   theme_test() +
